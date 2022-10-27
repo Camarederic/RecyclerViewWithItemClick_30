@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class FoodAdapter(private val foodList: ArrayList<Food>):RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
+     var onItemClick: ((Food) -> Unit)? = null
+
     class FoodViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
         val imageView: ImageView = itemView.findViewById(R.id.imageViewFood)
         val textView: TextView =  itemView.findViewById(R.id.textViewTitle)
@@ -23,10 +25,13 @@ class FoodAdapter(private val foodList: ArrayList<Food>):RecyclerView.Adapter<Fo
         val food = foodList[position]
         holder.imageView.setImageResource(food.image)
         holder.textView.text = food.name
+
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(food)
+        }
     }
 
     override fun getItemCount(): Int {
         return foodList.size
-        notifyDataSetChanged()
     }
 }
